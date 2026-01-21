@@ -1,0 +1,21 @@
+[project]
+name = "statistics"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "ipykernel>=7.1.0",
+    "matplotlib>=3.10.8",
+    "mypy>=1.19.1",
+    "numpy>=2.2.6",
+    "ruff>=0.14.13",
+    "scipy>=1.15.3",
+    "seaborn>=0.13.2",
+]
+
+[dependency-groups]
+dev = [
+    "scipy-stubs>=1.15.3.0",
+    "types-seaborn>=0.13.2.20251221",
+]
