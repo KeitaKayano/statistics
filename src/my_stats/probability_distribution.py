@@ -2,6 +2,7 @@ from typing import Any
 from dataclasses import dataclass
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.stats._distn_infrastructure import rv_continuous_frozen, rv_discrete_frozen
 
 
 @dataclass
@@ -9,28 +10,37 @@ class DistributionData:
     """Data class to hold data necessary for plotting"""
 
     x: np.ndarray
-    y_prop: np.ndarray  # PDF or PMF values
-    y_cdf: np.ndarray  # CDF values
-    mean: float
-    std: float
+    y_prop: np.ndarray
+    y_cdf: np.ndarray
+    mean: np.ndarray
+    std: np.ndarray
     is_continuous: bool
 
 
-def _calculate_data(dist: Any) -> DistributionData:
-    """Calculate data for plotting from a distribution object"""
+def _calculate_data(
+    dist: rv_continuous_frozen | rv_discrete_frozen,
+) -> DistributionData:
+    """Calculate data for plotting from a distribution object
+
+    Args:
+        dist: A object having methods pdf/pmf, cdf, ppf, mean, std.
+
+    Returns:
+        DistributionData object
+    """
 
     # 1. judge distribution type
-    is_continuous = hasattr(dist, "pdf")
+    is_continuous = isinstance(dist, rv_continuous_frozen)
 
     # 2. define x-axis range
     x_min = dist.ppf(0.001)
     x_max = dist.ppf(0.999)
 
     # 3. generate data points
-    if is_continuous:
-        x = np.linspace(x_min, x_max, 1000)
+    if isinstance(dist, rv_continuous_frozen):
+        x: np.ndarray = np.linspace(x_min, x_max, 1000)
         y_prop = dist.pdf(x)
-    else:
+    elif isinstance(dist, rv_discrete_frozen):
         x = np.arange(int(x_min), int(x_max) + 1)
         y_prop = dist.pmf(x)
 
@@ -39,7 +49,12 @@ def _calculate_data(dist: Any) -> DistributionData:
     std = dist.std()
 
     return DistributionData(
-        x=x, y_prop=y_prop, y_cdf=y_cdf, mean=mean, std=std, is_continuous=is_continuous
+        x=x,
+        y_prop=y_prop,
+        y_cdf=y_cdf,
+        mean=np.array(mean),
+        std=np.array(std),
+        is_continuous=is_continuous,
     )
 
 
@@ -90,7 +105,7 @@ def _render_plot(data: DistributionData, title: str) -> None:
     plt.show()
 
 
-def plot_distribution(dist: Any, title: str = "Distribution"):
+def plot_distribution(dist: Any, title: str = "Distribution") -> None:
     """
     receives a frozen object from scipy.stats and plots its PDF/PMF and CDF.
     """
