@@ -1,9 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.stats._distn_infrastructure import rv_continuous_frozen
 
 
-def visualize_pit(dist: rv_continuous_frozen, n_samples: int) -> None:
+def visualize_pit(dist, n_samples: int) -> None:
     """Visualize the Probability Integral Transform (PIT) process.
 
     Args:

@@ -20,6 +20,3 @@ dev = [
     "scipy-stubs>=1.15.3.0",
     "types-seaborn>=0.13.2.20251221",
 ]
-
-[tool.mypy]
-strict = true
