@@ -1,0 +1,24 @@
+services:
+  backend:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./app:/app/app  # APIコードを同期
+      - ./src:/app/src  # 計算ロジックを同期
+      # pyproject.tomlの変更も同期したい場合は以下を追加
+      # - ./pyproject.toml:/app/pyproject.toml
+    environment:
+      - WATCHFILES_FORCE_POLLING=true
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules # コンテナ内のライブラリを守る
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend

@@ -1,0 +1,8 @@
+# .dockerignore
+.git
+.venv
+__pycache__
+experiments/
+frontend/
+docker-compose.yml
+README.md
