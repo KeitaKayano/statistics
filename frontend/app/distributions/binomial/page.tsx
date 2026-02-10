@@ -5,18 +5,18 @@ import DistributionTemplate from '@/src/components/DistributionTemplate';
 import ControlRow from '@/src/components/ControlRow';
 
 export default function BinomialPage() {
-  const [n, setN] = useState(10);
+  const [N, setN] = useState(10);
   const [p, setP] = useState(0.5);
 
   return (
     <DistributionTemplate
       title="binomial distribution"
       apiPath="/api/distribution/binomial"
-      params={{ n, p }}
+      params={{ N, p }}
     >
       <ControlRow
         label="number of trials (n)"
-        value={n}
+        value={N}
         min={1}
         max={100}
         step={1}

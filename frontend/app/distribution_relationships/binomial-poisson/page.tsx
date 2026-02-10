@@ -5,23 +5,23 @@ import DistributionRelationTemplate from '@/src/components/DistributionRelationT
 import ControlRow from '@/src/components/ControlRow';
 
 export default function BinomialPoissonPage() {
-  const [n, setN] = useState(10);
+  const [N, setN] = useState(10);
   const [lambda_param, setLambda] = useState(10 * 0.5);
-  const p = lambda_param / n;
+  const p = lambda_param / N;
 
   return (
     <DistributionRelationTemplate
       title="Binomial-Poisson"
       apiPath1="/api/distribution/binomial"
       apiPath2="/api/distribution/poisson"
-      params1={{ n, p }}
+      params1={{ N, p }}
       params2={{ lambda_param }}
       title1="Binomial Distribution"
       title2="Poisson Distribution"
     >
       <ControlRow
-        label="n (試行回数)"
-        value={n}
+        label="N (試行回数)"
+        value={N}
         min={1}
         max={1000}
         step={1}

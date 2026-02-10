@@ -143,24 +143,24 @@ def get_poisson_distribution(
 
 @app.get("/api/distribution/binomial", response_model=DistributionResponse)
 def get_binomial_distribution(
-    n: int = Query(10, description="試行回数"),
+    N: int = Query(10, description="試行回数"),
     p: float = Query(0.5, description="成功確率"),
 ) -> DistributionResponse:
-    if n <= 0:
-        n = 1
+    if N <= 0:
+        N = 1
     if p < 0 or p > 1:
         p = 0.5
     start = 0
-    end = n
+    end = N
     # 計算ロジック
     x = np.arange(start, end + 1)
-    y = binom.pmf(x, n=n, p=p)
+    y = binom.pmf(x, n=N, p=p)
     # to avoid infinite values in plot, clip y values
     y_clipped = np.clip(y, 0, 100)
     return DistributionResponse(
         x=x.tolist(),
         y=y_clipped.tolist(),
-        title=f"二項分布 (n={n}, p={p})",
+        title=f"二項分布 (n={N}, p={p})",
     )
 
 

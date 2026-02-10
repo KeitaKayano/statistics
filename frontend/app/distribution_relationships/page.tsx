@@ -16,6 +16,12 @@ const distributionRelationships = [
     href: '/distribution_relationships/chi2-gamma',
     description: 'カイ二乗分布は自由度に応じたガンマ分布の特別なケースである',
   },
+  {
+    id: 'hypergeom-to-binomial',
+    name: '超幾何分布と二項分布',
+    href: '/distribution_relationships/hypergeom-binomial',
+    description: '母集団が大きい場合、超幾何分布は二項分布で近似できる',
+  },
 ];
 
 export default function DistributionRelationshipPage() {
