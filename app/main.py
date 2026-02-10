@@ -1,7 +1,18 @@
 import numpy as np
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
-from scipy.stats import norm, gamma, beta, poisson, expon, binom, geom, nbinom, hypergeom
+from scipy.stats import (
+    norm,
+    gamma,
+    beta,
+    poisson,
+    expon,
+    binom,
+    geom,
+    nbinom,
+    hypergeom,
+    chi2,
+)
 from app.schemas import DistributionResponse
 
 app = FastAPI()
@@ -129,6 +140,7 @@ def get_poisson_distribution(
         title=f"ポアソン分布 (λ={lambda_param})",
     )
 
+
 @app.get("/api/distribution/binomial", response_model=DistributionResponse)
 def get_binomial_distribution(
     n: int = Query(10, description="試行回数"),
@@ -150,6 +162,7 @@ def get_binomial_distribution(
         y=y_clipped.tolist(),
         title=f"二項分布 (n={n}, p={p})",
     )
+
 
 @app.get("/api/distribution/geometric", response_model=DistributionResponse)
 def get_geometric_distribution(
@@ -173,6 +186,7 @@ def get_geometric_distribution(
         y=y_clipped.tolist(),
         title=f"幾何分布 (p={p})",
     )
+
 
 @app.get("/api/distribution/negative_binomial", response_model=DistributionResponse)
 def get_negative_binomial_distribution(
@@ -199,6 +213,7 @@ def get_negative_binomial_distribution(
         y=y_clipped.tolist(),
         title=f"負の二項分布 (r={r}, p={p})",
     )
+
 
 @app.get("/api/distribution/hypergeometric", response_model=DistributionResponse)
 def get_hypergeometric_distribution(
@@ -227,4 +242,24 @@ def get_hypergeometric_distribution(
         x=x.tolist(),
         y=y_clipped.tolist(),
         title=f"超幾何分布 (M={M}, n={n}, N={N})",
+    )
+
+
+@app.get("/api/distribution/chi2", response_model=DistributionResponse)
+def get_chisquare_distribution(
+    df: float = Query(3, description="自由度"),
+) -> DistributionResponse:
+    if df <= 0:
+        df = 0.1
+    start = 0
+    end = df * 4
+    # 計算ロジック
+    x = np.linspace(start, end, 200)
+    y = chi2.pdf(x, df=df)
+    # to avoid infinite values in plot, clip y values
+    y_clipped = np.clip(y, 0, 100)
+    return DistributionResponse(
+        x=x.tolist(),
+        y=y_clipped.tolist(),
+        title=f"カイ二乗分布 (df={df})",
     )

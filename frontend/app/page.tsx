@@ -31,6 +31,15 @@ export default function Home() {
       active: false,
       color: 'bg-green-500',
     },
+    {
+      title: '分布の関係性（準備中）',
+      href: '/distribution_relationships',
+      description:
+        '２つの確率分布の関係性や変換を視覚的に理解するためのモジュールです。',
+      icon: '🔄',
+      active: true,
+      color: 'bg-yellow-500',
+    },
   ];
 
   return (

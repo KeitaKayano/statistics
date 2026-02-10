@@ -84,6 +84,15 @@ const distributions = [
     type: 'discrete',
     formula: 'HG(M, n, N)',
   },
+  {
+    id: 'chi2',
+    name: 'カイ二乗分布 (Chi-Square Distribution)',
+    href: '/distributions/chi2',
+    description:
+      '自由度kのカイ二乗分布は、k個の独立した標準正規分布に従う確率変数の二乗和で定義される連続確率分布です。',
+    type: 'continuous',
+    formula: 'χ²(k)',
+  },
 ];
 
 export default function DistributionPage() {

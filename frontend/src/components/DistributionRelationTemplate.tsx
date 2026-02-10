@@ -11,34 +11,61 @@ const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
 
 interface TemplateProps {
   title: string;
-  apiPath: string;
-  params: Record<string, string | number | boolean | null | undefined>;
-  children: ReactNode;
+  apiPath1: string;
+  apiPath2: string;
+  params1: Record<string, string | number>;
+  params2: Record<string, string | number>;
+  title1: string;
+  title2: string;
+  children?: ReactNode;
 }
 
-const DistributionTemplate: React.FC<TemplateProps> = ({
+const DistributionRelationTemplate: React.FC<TemplateProps> = ({
   title,
-  apiPath,
-  params,
+  apiPath1,
+  apiPath2,
+  params1,
+  params2,
+  title1,
+  title2,
   children,
 }) => {
-  const queryString = buildQueryString(params);
-  const { data, error, isLoading } = useFetch<DistributionData>(
-    `http://localhost:8080${apiPath}?${queryString}`
+  const queryString1 = buildQueryString(params1);
+  const queryString2 = buildQueryString(params2);
+  const {
+    data: data1,
+    error: error1,
+    isLoading: isLoading1,
+  } = useFetch<DistributionData>(
+    `http://localhost:8080${apiPath1}?${queryString1}`
   );
+  const {
+    data: data2,
+    error: error2,
+    isLoading: isLoading2,
+  } = useFetch<DistributionData>(
+    `http://localhost:8080${apiPath2}?${queryString2}`
+  );
+  console.log('DistributionRelationTemplate rendered with:', {
+    params1,
+    params2,
+    data1,
+    data2,
+  });
+  console.log(data1, data2);
 
-  // ★ AppShellで包んで中身だけを書く
   return (
     <AppShell
-      title={`${title} Simulator`}
+      title={`${title} Relation Simulator`}
       breadcrumbs={[
-        { label: 'Distributions', href: '/distributions' },
+        {
+          label: 'DistributionRelationship',
+          href: '/distribution_relationships',
+        },
         { label: title },
       ]}
     >
-      {/* ここから下は「中身」のレイアウト定義 */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* 左カラム：操作パネル */}
         <div className="lg:col-span-1 space-y-6">
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
             <h3 className="text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-100">
@@ -53,18 +80,15 @@ const DistributionTemplate: React.FC<TemplateProps> = ({
           </div>
         </div>
 
-        {/* 右カラム：グラフ */}
         <div className="lg:col-span-2">
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 h-[500px] relative overflow-hidden flex flex-col">
-            {/* エラー表示 */}
-            {error && (
+            {(error1 || error2) && (
               <div className="absolute inset-0 flex items-center justify-center bg-white/90 z-10 text-red-500 font-bold">
-                ⚠️ {error}
+                ⚠️ {error1 || error2}
               </div>
             )}
 
-            {/* ローディング表示 */}
-            {isLoading && !error && (
+            {(isLoading1 || isLoading2) && !error1 && !error2 && (
               <div className="absolute inset-0 flex items-center justify-center z-10">
                 <div className="animate-pulse text-gray-400 font-medium">
                   Computing...
@@ -72,28 +96,35 @@ const DistributionTemplate: React.FC<TemplateProps> = ({
               </div>
             )}
 
-            {/* グラフ描画 */}
-            {data && (
+            {!error1 && !error2 && data1 && data2 && (
               <Plot
                 data={[
                   {
-                    x: data.x,
-                    y: data.y,
+                    x: data1.x,
+                    y: data1.y,
                     type: 'scatter',
                     mode: 'lines',
-                    fill: 'tozeroy',
-                    line: { color: '#2563eb', width: 3 },
+                    name: title1,
+                    line: { color: 'blue' },
+                  },
+                  {
+                    x: data2.x,
+                    y: data2.y,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: title2,
+                    line: { color: 'red' },
                   },
                 ]}
                 layout={{
                   autosize: true,
-                  title: { text: data.title, font: { size: 18 } },
-                  margin: { l: 50, r: 20, t: 40, b: 40 },
-                  xaxis: { gridcolor: '#f3f4f6' },
-                  yaxis: { gridcolor: '#f3f4f6' },
+                  title: 'Distribution Relationship',
+                  xaxis: { title: 'x' },
+                  yaxis: { title: 'Density' },
+                  margin: { t: 40, r: 20, b: 40, l: 50 },
                 }}
-                useResizeHandler={true}
                 style={{ width: '100%', height: '100%' }}
+                useResizeHandler={true}
               />
             )}
           </div>
@@ -103,4 +134,4 @@ const DistributionTemplate: React.FC<TemplateProps> = ({
   );
 };
 
-export default DistributionTemplate;
+export default DistributionRelationTemplate;
