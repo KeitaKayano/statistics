@@ -12,6 +12,7 @@ from scipy.stats import (
     nbinom,
     hypergeom,
     chi2,
+    t,
 )
 from app.schemas import DistributionResponse
 
@@ -262,4 +263,24 @@ def get_chisquare_distribution(
         x=x.tolist(),
         y=y_clipped.tolist(),
         title=f"カイ二乗分布 (df={df})",
+    )
+
+
+@app.get("/api/distribution/t", response_model=DistributionResponse)
+def get_t_distribution(
+    df: float = Query(3, description="自由度"),
+) -> DistributionResponse:
+    if df <= 0:
+        df = 0.1
+    start = -5
+    end = 5
+    # 計算ロジック
+    x = np.linspace(start, end, 200)
+    y = t.pdf(x, df=df)
+    # to avoid infinite values in plot, clip y values
+    y_clipped = np.clip(y, 0, 100)
+    return DistributionResponse(
+        x=x.tolist(),
+        y=y_clipped.tolist(),
+        title=f"t分布 (df={df})",
     )

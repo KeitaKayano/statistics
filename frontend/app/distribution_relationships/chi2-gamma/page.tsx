@@ -1,5 +1,3 @@
-'use client';
-
 import DistributionRelationTemplate from '@/src/components/DistributionRelationTemplate';
 export default function Chi2GammaPage() {
   return (

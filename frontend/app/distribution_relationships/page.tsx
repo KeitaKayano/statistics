@@ -22,6 +22,19 @@ const distributionRelationships = [
     href: '/distribution_relationships/hypergeom-binomial',
     description: '母集団が大きい場合、超幾何分布は二項分布で近似できる',
   },
+  {
+    id: 'normal-to-t',
+    name: '正規分布とスチューデントのt分布',
+    href: '/distribution_relationships/normal-t',
+    description:
+      '自由度が大きくなると、スチューデントのt分布は正規分布に近づく',
+  },
+  {
+    id: 'geometric-to-exponential',
+    name: '幾何分布と指数分布',
+    href: '/distribution_relationships/geometric-exp',
+    description: '幾何分布と指数分布は離散と連続の対応する分布である',
+  },
 ];
 
 export default function DistributionRelationshipPage() {
