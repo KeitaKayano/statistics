@@ -93,6 +93,24 @@ const distributions = [
     type: 'continuous',
     formula: 'χ²(k)',
   },
+  {
+    id: 't',
+    name: "スチューデントのt分布 (Student's t-Distribution)",
+    href: '/distributions/t',
+    description:
+      '母分散が不明な場合の小標本に対する推定に用いられる連続確率分布で、自由度νによって形状が決まります。',
+    type: 'continuous',
+    formula: 't(ν)',
+  },
+  {
+    id: 'pareto',
+    name: 'パレート分布 (Pareto Distribution)',
+    href: '/distributions/pareto',
+    description:
+      '所得分布や都市の人口分布など、富の不均衡な分布をモデル化するために使用される連続確率分布です。',
+    type: 'continuous',
+    formula: 'Pareto(x_m, α)',
+  },
 ];
 
 export default function DistributionPage() {

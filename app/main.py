@@ -13,6 +13,7 @@ from scipy.stats import (
     hypergeom,
     chi2,
     t,
+    pareto,
 )
 from app.schemas import DistributionResponse
 
@@ -283,4 +284,24 @@ def get_t_distribution(
         x=x.tolist(),
         y=y_clipped.tolist(),
         title=f"t分布 (df={df})",
+    )
+
+
+@app.get("/api/distribution/pareto", response_model=DistributionResponse)
+def get_pareto_distribution(
+    b: float = Query(2, description="形状パラメータ"),
+) -> DistributionResponse:
+    if b <= 0:
+        b = 0.1
+    start = 1
+    end = 10
+    # 計算ロジック
+    x = np.linspace(start, end, 200)
+    y = pareto.pdf(x, b)
+    # to avoid infinite values in plot, clip y values
+    y_clipped = np.clip(y, 0, 100)
+    return DistributionResponse(
+        x=x.tolist(),
+        y=y_clipped.tolist(),
+        title=f"パレート分布 (b={b})",
     )
