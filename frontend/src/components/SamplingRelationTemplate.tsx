@@ -16,6 +16,10 @@ const SamplingRelationTemplate: React.FC<SamplingRelationTemplateProps> = ({
   title1,
   title2,
   children,
+  parentBreadcrumbs = [
+    { label: 'Home', href: '/' },
+    { label: 'Sampling Relationship', href: '/sampling_relationships' },
+  ],
 }) => {
   const queryString1 = buildQueryString(params1);
   const queryString2 = buildQueryString(params2);
@@ -38,11 +42,8 @@ const SamplingRelationTemplate: React.FC<SamplingRelationTemplateProps> = ({
     <AppShell
       title={`${title} Sampling Relation Simulator`}
       breadcrumbs={[
-        {
-          label: 'SamplingRelationship',
-          href: '/sampling_relationships',
-        },
-        { label: title },
+        ...parentBreadcrumbs,
+        { label: title }, // 現在のページ（リンクなし）は自動で末尾に追加
       ]}
     >
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

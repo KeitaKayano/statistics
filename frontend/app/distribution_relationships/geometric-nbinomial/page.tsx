@@ -17,6 +17,12 @@ export default function GeometricNBinomialPage() {
       params2={{ r, p }}
       title1="Geometric Distribution"
       title2="Negative Binomial Distribution"
+      parentBreadcrumbs={[
+        {
+          label: 'Distribution Relationships',
+          href: '/distribution_relationships',
+        },
+      ]}
     >
       <ControlRow
         label="r (成功回数)"

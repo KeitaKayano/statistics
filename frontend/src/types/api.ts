@@ -47,4 +47,5 @@ export interface SamplingRelationTemplateProps {
   title1: string;
   title2: string;
   children?: ReactNode;
+  parentBreadcrumbs?: { label: string; href: string }[];
 }
