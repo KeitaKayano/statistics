@@ -35,6 +35,13 @@ const distributionRelationships = [
     href: '/distribution_relationships/geometric-exp',
     description: '幾何分布と指数分布は離散と連続の対応する分布である',
   },
+  {
+    id: 'geometric-to-nbinomial',
+    name: '幾何分布と負の二項分布',
+    href: '/distribution_relationships/geometric-nbinomial',
+    description:
+      '負の二項分布は複数回の成功までの試行回数をモデル化し、幾何分布はその特別なケースである',
+  },
 ];
 
 export default function DistributionRelationshipPage() {

@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import distributions
+from app.routers import distributions, samplings
 
 app = FastAPI()
 
@@ -20,3 +20,4 @@ app.add_middleware(
 app.include_router(
     distributions.router, prefix="/api/distribution", tags=["distributions"]
 )
+app.include_router(samplings.router, prefix="/api/sampling", tags=["samplings"])

@@ -1,22 +1,14 @@
 'use client';
 
-import { ReactNode } from 'react';
 import dynamic from 'next/dynamic';
-import { DistributionData } from '@/src/types/api';
+import { DistributionData, DistributionTemplateProps } from '@/src/types/api';
 import { AppShell } from '@/src/components/AppShell';
 import { buildQueryString } from '@/src/utils/url';
 import { useFetch } from '../hooks/useFetch';
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
 
-interface TemplateProps {
-  title: string;
-  apiPath: string;
-  params: Record<string, string | number | boolean | null | undefined>;
-  children: ReactNode;
-}
-
-const DistributionTemplate: React.FC<TemplateProps> = ({
+const DistributionTemplate: React.FC<DistributionTemplateProps> = ({
   title,
   apiPath,
   params,

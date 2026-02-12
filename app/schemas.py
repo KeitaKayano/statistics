@@ -7,3 +7,7 @@ class DistributionResponse(BaseModel):
     x: List[float] | List[int]
     y: List[float]
     title: str
+
+
+class SamplingResponse(BaseModel):
+    samples: List[float]
